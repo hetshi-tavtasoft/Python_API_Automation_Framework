@@ -1,4 +1,0 @@
-base_url: https://jsonplaceholder.typicode.com
-timeout: 10
-headers:
-  Content-Type: application/json
