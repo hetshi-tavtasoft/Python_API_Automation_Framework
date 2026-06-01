@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api-automation-tests
+    volumes:
+      # Map logs and reports directories to host machine to persist files
+      - ./logs:/app/logs
+      - ./reports:/app/reports
+    environment:
+      - BASE_URL=https://jsonplaceholder.typicode.com
+      - FAKESTORE_BASE_URL=https://fakestoreapi.com
+      - TIMEOUT=30
+      - RETRY_ATTEMPTS=3
+      - RETRY_BACKOFF_FACTOR=2
+    # Run tests in parallel within the container
+    command: ["pytest", "-n", "auto", "--html=reports/report.html", "--self-contained-html", "--alluredir=reports/allure-results"]
