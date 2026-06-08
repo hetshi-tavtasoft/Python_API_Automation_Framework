@@ -6,17 +6,20 @@ Enterprise-grade Python API automation framework with scalable architecture, rep
 
 ```
 enterprise-api-framework/
-├── config/              # Environment configuration files
-├── core/                # Core engine (API client, logger, config)
-├── logs/                # Runtime logs
-├── models/              # Pydantic response models
-├── reports/             # HTML and Allure reports
-├── testdata/            # JSON test data payloads
+├── app/                  # FastAPI mock server (for local testing)
+├── config/               # Environment configuration (.env)
+├── logs/                 # Runtime logs
+├── models/               # Pydantic response models
+├── reports/              # HTML and Allure reports
+├── testdata/             # JSON test data payloads
 ├── tests/
-│   ├── smoke/           # Smoke tests
-│   └── regression/      # Regression tests
-├── utils/               # Utilities (JSON reader, etc.)
-├── .github/workflows/   # CI/CD pipelines
+│   ├── smoke/            # Smoke tests
+│   ├── regression/       # Regression tests
+│   └── fakestore/        # FakeStore API tests
+├── utils/                # Utilities (API client, logger, JSON reader)
+├── .github/workflows/    # CI/CD pipelines
+├── conftest.py           # Pytest fixtures
+├── docker-compose.yml
 ├── Dockerfile
 ├── pytest.ini
 ├── requirements.txt
@@ -25,7 +28,7 @@ enterprise-api-framework/
 
 ## Features
 
-- **API Client** with GET/POST methods and retry mechanism
+- **API Client** with GET/POST/PUT/DELETE/PATCH methods and retry mechanism (tenacity)
 - **Logging** via Loguru with rotation and retention
 - **Response Validation** using Pydantic models
 - **HTML Reports** auto-generated with pytest-html
@@ -34,6 +37,7 @@ enterprise-api-framework/
 - **CI/CD** via GitHub Actions
 - **Docker** containerization
 - **Test Data Management** with JSON fixtures
+- **FastAPI Mock Server** (`app/`) for local development and testing
 
 ## Tech Stack
 
@@ -47,6 +51,7 @@ enterprise-api-framework/
 | Allure | Advanced reporting |
 | pytest-xdist | Parallel execution |
 | Tenacity | Retry mechanism |
+| FastAPI | Mock server |
 | Docker | Containerization |
 | GitHub Actions | CI/CD |
 
@@ -79,6 +84,8 @@ pytest -n 4
 
 # Run specific folder
 pytest tests/smoke/
+pytest tests/regression/
+pytest tests/fakestore/
 ```
 
 ## Docker
@@ -86,8 +93,19 @@ pytest tests/smoke/
 ```bash
 docker build -t api-framework .
 docker run api-framework
+
+# Or use docker-compose
+docker-compose up
+```
+
+## Mock Server
+
+A FastAPI mock server is included in `app/` for local testing:
+
+```bash
+uvicorn app.main:app --reload
 ```
 
 ## CI/CD
 
-Push to `main` branch triggers automatic test execution via GitHub Actions.
+Push to `main` branch triggers automatic test execution via GitHub Actions, with HTML and Allure reports uploaded as artifacts.

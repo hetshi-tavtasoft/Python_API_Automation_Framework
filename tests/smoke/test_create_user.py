@@ -7,6 +7,6 @@ def test_create_user(api_client, load_json):
 
     payload = load_json("testdata/create_user.json")
 
-    response = api_client.post("/posts", payload)
+    response = api_client.post("/users", payload)
 
     assert response.status_code == 201
