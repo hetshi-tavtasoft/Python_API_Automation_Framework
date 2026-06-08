@@ -1,7 +1,8 @@
 from dotenv import load_dotenv
 import os
 
-load_dotenv("config/qa.env")
+load_dotenv("config/default.env")
+load_dotenv("config/qa.env", override=True)
 
 
 class Config:

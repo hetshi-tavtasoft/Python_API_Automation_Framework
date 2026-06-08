@@ -17,7 +17,7 @@ def log_retry_attempt(retry_state):
     attempt = retry_state.attempt_number
     sleep_time = retry_state.next_action.sleep
     outcome = retry_state.outcome
-    if outcome.failed():
+    if outcome.failed:
         reason = str(outcome.exception())
     else:
         response = outcome.result()
