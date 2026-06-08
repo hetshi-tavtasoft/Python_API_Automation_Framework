@@ -38,9 +38,12 @@ jobs:
 
       - name: Generate Allure Report
         if: always()
-        run: |
-          pip install allure-pytest
-          allure generate reports/allure-results -o reports/allure-report --clean
+        uses: simple-elf/allure-report-action@v1.9
+        with:
+          allure_results: reports/allure-results
+          allure_history: allure-history
+          keep_reports: 20
+          allure_report: reports/allure-report
 
       - name: Upload Dashboard Report
         if: always()

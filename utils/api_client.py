@@ -49,6 +49,13 @@ common_retry = retry(
 class APIClient:
 
     @staticmethod
+    def _default_headers(headers=None):
+        defaults = {"User-Agent": "APIAutomationFramework/1.0"}
+        if headers:
+            defaults.update(headers)
+        return defaults
+
+    @staticmethod
     @common_retry
     def get(endpoint, base_url=None, headers=None, params=None):
         url = f"{base_url or Config.BASE_URL}{endpoint}"
@@ -63,7 +70,7 @@ class APIClient:
         try:
             response = requests.get(
                 url,
-                headers=headers,
+                headers=APIClient._default_headers(headers),
                 params=params,
                 timeout=Config.TIMEOUT
             )
@@ -92,7 +99,7 @@ class APIClient:
             response = requests.post(
                 url,
                 json=payload,
-                headers=headers,
+                headers=APIClient._default_headers(headers),
                 timeout=Config.TIMEOUT
             )
             elapsed = (time.time() - start_time) * 1000
@@ -120,7 +127,7 @@ class APIClient:
             response = requests.put(
                 url,
                 json=payload,
-                headers=headers,
+                headers=APIClient._default_headers(headers),
                 timeout=Config.TIMEOUT
             )
             elapsed = (time.time() - start_time) * 1000
@@ -146,7 +153,7 @@ class APIClient:
         try:
             response = requests.delete(
                 url,
-                headers=headers,
+                headers=APIClient._default_headers(headers),
                 timeout=Config.TIMEOUT
             )
             elapsed = (time.time() - start_time) * 1000
@@ -174,7 +181,7 @@ class APIClient:
             response = requests.patch(
                 url,
                 json=payload,
-                headers=headers,
+                headers=APIClient._default_headers(headers),
                 timeout=Config.TIMEOUT
             )
             elapsed = (time.time() - start_time) * 1000
