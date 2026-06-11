@@ -32,5 +32,6 @@ logs/
 .allure/
 .pytest_cache/
 
-# Secrets (ignore qa.env but keep default.env committed)
+# Secrets (ignore qa.env and prod.env, keep default.env committed)
 config/qa.env
+config/prod.env

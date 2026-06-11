@@ -1,8 +1,10 @@
 from pydantic import BaseModel
 
+
 class Geo(BaseModel):
     lat: str
     lng: str
+
 
 class Address(BaseModel):
     street: str
@@ -11,10 +13,12 @@ class Address(BaseModel):
     zipcode: str
     geo: Geo
 
+
 class Company(BaseModel):
     name: str
     catchPhrase: str
     bs: str
+
 
 class UserData(BaseModel):
     id: int

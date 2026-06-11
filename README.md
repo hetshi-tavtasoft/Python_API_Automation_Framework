@@ -7,18 +7,36 @@ Enterprise-grade Python API automation framework with scalable architecture, rep
 ```
 enterprise-api-framework/
 ├── app/                  # FastAPI mock server (for local testing)
-├── config/               # Environment configuration (.env)
+├── config/
+│   ├── default.env       # Committed default configuration
+│   ├── dev.env           # Development overrides
+│   ├── qa.env            # QA overrides (gitignored)
+│   └── prod.env          # Production overrides (gitignored)
+├── core/                 # Core framework
+│   ├── api_client.py     # HTTP client (GET/POST/PUT/PATCH/DELETE)
+│   ├── assertions.py     # Reusable assertion helpers
+│   ├── config_manager.py # Environment-aware configuration loader
+│   ├── logger.py         # Loguru logger with file rotation
+│   ├── reporting.py      # Custom HTML dashboard generator
+│   └── retry_handler.py  # Tenacity retry decorator
 ├── logs/                 # Runtime logs
-├── models/               # Pydantic response models
-├── reports/              # HTML and Allure reports
-├── testdata/             # JSON test data payloads
+├── models/
+│   ├── request_models/   # Pydantic request schemas
+│   └── response_models/  # Pydantic response schemas
+├── reports/              # HTML, Dashboard and Allure reports
+├── testdata/
+│   ├── users.json        # User test data
+│   └── payloads/         # API payload fixtures
 ├── tests/
 │   ├── smoke/            # Smoke tests
 │   ├── regression/       # Regression tests
-│   └── fakestore/        # FakeStore API tests
-├── utils/                # Utilities (API client, logger, JSON reader)
+│   └── integration/      # Integration tests (FakeStore, external APIs)
+├── utils/
+│   ├── helpers.py        # General utility helpers
+│   ├── json_utils.py     # JSON read/write utilities
+│   └── validators.py     # Reusable validation functions
 ├── .github/workflows/    # CI/CD pipelines
-├── conftest.py           # Pytest fixtures
+├── conftest.py           # Pytest fixtures & hooks
 ├── docker-compose.yml
 ├── Dockerfile
 ├── pytest.ini
@@ -28,16 +46,17 @@ enterprise-api-framework/
 
 ## Features
 
-- **API Client** with GET/POST/PUT/DELETE/PATCH methods and retry mechanism (tenacity)
+- **API Client** with GET/POST/PUT/DELETE/PATCH methods and retry mechanism (tenacity) — DRY single `_request` method
 - **Logging** via Loguru with rotation and retention
 - **Response Validation** using Pydantic models
-- **HTML Reports** auto-generated with pytest-html
+- **Custom Dashboard** auto-generated HTML report with pie chart, duration bars, and test details
 - **Allure Reports** for rich test dashboards
 - **Parallel Execution** with pytest-xdist
 - **CI/CD** via GitHub Actions
 - **Docker** containerization
 - **Test Data Management** with JSON fixtures
 - **FastAPI Mock Server** (`app/`) for local development and testing
+- **Environment-aware config** — switch between dev/qa/prod via `APP_ENV` variable
 
 ## Tech Stack
 
@@ -85,7 +104,7 @@ pytest -n 4
 # Run specific folder
 pytest tests/smoke/
 pytest tests/regression/
-pytest tests/fakestore/
+pytest tests/integration/
 ```
 
 ## Docker
@@ -108,4 +127,4 @@ uvicorn app.main:app --reload
 
 ## CI/CD
 
-Push to `main` branch triggers automatic test execution via GitHub Actions, with HTML and Allure reports uploaded as artifacts.
+Push to `master` branch triggers automatic test execution via GitHub Actions, with HTML, Dashboard, and Allure reports uploaded as artifacts.

@@ -4,9 +4,6 @@ import allure
 @allure.story("Create User")
 @allure.title("POST create a new user")
 def test_create_user(api_client, load_json):
-
-    payload = load_json("testdata/create_user.json")
-
+    payload = load_json("testdata/users.json")["create"]
     response = api_client.post("/users", payload)
-
     assert response.status_code == 201

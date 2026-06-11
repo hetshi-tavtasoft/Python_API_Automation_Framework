@@ -1,0 +1,13 @@
+{
+  "create": {
+    "name": "Hetshi",
+    "job": "QA Engineer"
+  },
+  "update": {
+    "name": "Updated Name",
+    "job": "Senior QA"
+  },
+  "patch": {
+    "job": "Lead QA"
+  }
+}

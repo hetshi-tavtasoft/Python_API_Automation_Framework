@@ -1,0 +1,7 @@
+{
+  "title": "Test Product",
+  "price": 29.99,
+  "description": "A sample product for API testing",
+  "image": "https://i.pravatar.cc",
+  "category": "electronics"
+}
